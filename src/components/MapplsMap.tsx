@@ -24,7 +24,7 @@ const MapplsMap: React.FC<MapplsMapProps> = ({ apiKey }) => {
       // Add a marker
       window.L.marker([28.61, 77.23])
         .addTo(map)
-        .bindPopup('Delhi - Mappls API Connected')
+        .bindPopup('Chennai - Mappls API Connected')
         .openPopup();
     };
 
