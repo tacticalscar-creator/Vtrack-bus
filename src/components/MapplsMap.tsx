@@ -6,22 +6,39 @@ interface MapplsMapProps {
 
 const MapplsMap: React.FC<MapplsMapProps> = ({ apiKey }) => {
   useEffect(() => {
-    // Prevent reloading if already loaded
-    if (window.L) {
+    const initializeMap = () => {
+      if (!window.L) return;
+
       const map = new window.L.Map('map', { center: [28.61, 77.23], zoom: 12 });
-      window.L.marker([28.61, 77.23]).addTo(map).bindPopup('Delhi - Mappls API Connected').openPopup();
+
+      // Add Mappls tile layer
+      window.L.tileLayer(
+        `https://apis.mappls.com/advancedmaps/api/${apiKey}/vector/{z}/{x}/{y}.png`,
+        {
+          attribution: 'Map data © Mappls',
+          maxZoom: 22,
+          apiKey: apiKey
+        }
+      ).addTo(map);
+
+      // Add a marker
+      window.L.marker([28.61, 77.23])
+        .addTo(map)
+        .bindPopup('Delhi - Mappls API Connected')
+        .openPopup();
+    };
+
+    // If Mappls SDK already loaded
+    if (window.L) {
+      initializeMap();
       return;
     }
 
+    // Dynamically load SDK
     const script = document.createElement('script');
     script.src = `https://apis.mappls.com/advancedmaps/api/${apiKey}/map_sdk.js`;
     script.async = true;
-    script.onload = () => {
-      if (window.L) {
-        const map = new window.L.Map('map', { center: [28.61, 77.23], zoom: 12 });
-        window.L.marker([28.61, 77.23]).addTo(map).bindPopup('CHENNAIIIII').openPopup();
-      }
-    };
+    script.onload = initializeMap;
     document.body.appendChild(script);
 
     return () => {
