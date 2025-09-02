@@ -7,7 +7,6 @@ import ProfilePage from './components/ProfilePage';
 import MapplsMap from './components/MapplsMap';
 
 export type AppPage = 'login' | 'signup' | 'route-selection' | 'location-sharing' | 'profile';
-
 export interface DriverProfile {
   phone: string;
   name: string;
@@ -16,7 +15,7 @@ export interface DriverProfile {
   emergencyContact: string;
 }
 
-const MAPPLS_API_KEY = '5c1bc1925b66fc2bb19be49c902ecd42';
+const MAPPLS_API_KEY = '5c1bc1925b66fc2bb19be49c902ecd42'; // replace with your live key for Vercel
 
 function App() {
   const [currentPage, setCurrentPage] = useState<AppPage>('login');
@@ -30,13 +29,11 @@ function App() {
   });
 
   const handleLogin = (phone: string, password: string) => {
-    console.log('Login attempt:', { phone, password });
     setDriverProfile(prev => ({ ...prev, phone }));
     setCurrentPage('route-selection');
   };
 
   const handleSignup = (profile: DriverProfile, password: string) => {
-    console.log('Signup attempt:', { profile, password });
     setDriverProfile(profile);
     setCurrentPage('route-selection');
   };
@@ -70,18 +67,12 @@ function App() {
       {currentPage === 'login' && (
         <LoginPage onLogin={handleLogin} onGoToSignup={handleGoToSignup} />
       )}
-
       {currentPage === 'signup' && (
         <SignupPage onSignup={handleSignup} onGoToLogin={handleGoToLogin} />
       )}
-
       {currentPage === 'route-selection' && (
-        <RouteSelectionPage 
-          driverProfile={driverProfile}
-          onRouteConfirm={handleRouteConfirm} 
-        />
+        <RouteSelectionPage driverProfile={driverProfile} onRouteConfirm={handleRouteConfirm} />
       )}
-
       {currentPage === 'location-sharing' && (
         <LocationSharingPage 
           selectedRoute={selectedRoute}
@@ -89,11 +80,9 @@ function App() {
           onGoToProfile={handleGoToProfile}
           onLogout={handleLogout}
         >
-          {/* MapplsMap rendered directly inside LocationSharingPage */}
           <MapplsMap apiKey={MAPPLS_API_KEY} />
         </LocationSharingPage>
       )}
-
       {currentPage === 'profile' && (
         <ProfilePage 
           driverProfile={driverProfile}
