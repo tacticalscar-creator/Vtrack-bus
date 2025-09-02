@@ -19,7 +19,7 @@ const MapplsMap: React.FC<MapplsMapProps> = ({ apiKey }) => {
     script.onload = () => {
       if (window.L) {
         const map = new window.L.Map('map', { center: [28.61, 77.23], zoom: 12 });
-        window.L.marker([28.61, 77.23]).addTo(map).bindPopup('Chennai - Mappls API Connected').openPopup();
+        window.L.marker([28.61, 77.23]).addTo(map).bindPopup('CHENNAIIIII').openPopup();
       }
     };
     document.body.appendChild(script);
