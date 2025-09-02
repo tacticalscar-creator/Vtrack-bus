@@ -16,6 +16,8 @@ export interface DriverProfile {
   emergencyContact: string;
 }
 
+const MAPPLS_API_KEY = '5c1bc1925b66fc2bb19be49c902ecd42';
+
 function App() {
   const [currentPage, setCurrentPage] = useState<AppPage>('login');
   const [selectedRoute, setSelectedRoute] = useState<string>('');
@@ -39,32 +41,18 @@ function App() {
     setCurrentPage('route-selection');
   };
 
-  const handleGoToSignup = () => {
-    setCurrentPage('signup');
-  };
-
-  const handleGoToLogin = () => {
-    setCurrentPage('login');
-  };
-
+  const handleGoToSignup = () => setCurrentPage('signup');
+  const handleGoToLogin = () => setCurrentPage('login');
   const handleRouteConfirm = (route: string) => {
     setSelectedRoute(route);
     setCurrentPage('location-sharing');
   };
-
-  const handleGoToProfile = () => {
-    setCurrentPage('profile');
-  };
-
-  const handleBackToLocationSharing = () => {
-    setCurrentPage('location-sharing');
-  };
-
+  const handleGoToProfile = () => setCurrentPage('profile');
+  const handleBackToLocationSharing = () => setCurrentPage('location-sharing');
   const handleProfileUpdate = (updatedProfile: DriverProfile) => {
     setDriverProfile(updatedProfile);
     setCurrentPage('location-sharing');
   };
-
   const handleLogout = () => {
     setCurrentPage('login');
     setSelectedRoute('');
@@ -82,18 +70,18 @@ function App() {
       {currentPage === 'login' && (
         <LoginPage onLogin={handleLogin} onGoToSignup={handleGoToSignup} />
       )}
-      
+
       {currentPage === 'signup' && (
         <SignupPage onSignup={handleSignup} onGoToLogin={handleGoToLogin} />
       )}
-      
+
       {currentPage === 'route-selection' && (
         <RouteSelectionPage 
           driverProfile={driverProfile}
           onRouteConfirm={handleRouteConfirm} 
         />
       )}
-      
+
       {currentPage === 'location-sharing' && (
         <LocationSharingPage 
           selectedRoute={selectedRoute}
@@ -101,10 +89,11 @@ function App() {
           onGoToProfile={handleGoToProfile}
           onLogout={handleLogout}
         >
-          <MapplsMap />
+          {/* MapplsMap rendered directly inside LocationSharingPage */}
+          <MapplsMap apiKey={MAPPLS_API_KEY} />
         </LocationSharingPage>
       )}
-      
+
       {currentPage === 'profile' && (
         <ProfilePage 
           driverProfile={driverProfile}
