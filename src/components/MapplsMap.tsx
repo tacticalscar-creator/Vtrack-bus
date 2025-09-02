@@ -6,14 +6,15 @@ interface MapplsMapProps {
 
 const MapplsMap: React.FC<MapplsMapProps> = ({ apiKey }) => {
   useEffect(() => {
-    // Dynamically load Mappls SDK
+    if (window.L) return; // already loaded
+
     const script = document.createElement('script');
     script.src = `https://apis.mappls.com/advancedmaps/api/${apiKey}/map_sdk.js`;
     script.async = true;
     script.onload = () => {
       if (window.L) {
         const map = new window.L.Map('map', {
-          center: [28.61, 77.23], // Delhi coords
+          center: [28.61, 77.23],
           zoom: 12,
         });
 
@@ -26,7 +27,7 @@ const MapplsMap: React.FC<MapplsMapProps> = ({ apiKey }) => {
     document.body.appendChild(script);
   }, [apiKey]);
 
-  return <div id="map" style={{ height: '500px', width: '100%' }} />;
+  return <div id="map" style={{ height: '400px', width: '100%' }} />;
 };
 
 export default MapplsMap;
