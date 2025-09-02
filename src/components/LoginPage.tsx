@@ -29,7 +29,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onGoToSignup }) => {
             <div className="bg-blue-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
               <Phone className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Varshinis ass eater</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Bus Driver Login</h1>
             <p className="text-xl text-gray-600">Please log in to continue</p>
           </div>
 
