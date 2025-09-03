@@ -7,37 +7,27 @@ interface MapplsMapProps {
 const MapplsMap: React.FC<MapplsMapProps> = ({ apiKey }) => {
   useEffect(() => {
     const initializeMap = () => {
-      if (!window.L) return;
+      if (!window.Mappls) return;
 
-      // Initialize the map
-      const map = new window.L.Map('map', {
-        center: [28.61, 77.23], // Delhi coordinates, change if needed
+      const map = new window.Mappls.Map({
+        container: 'map',
+        center: [28.61, 77.23], // Delhi coordinates, change as needed
         zoom: 12,
+        key: apiKey
       });
 
-      // Add Mappls tile layer
-      window.L.tileLayer(
-        `https://apis.mappls.com/advancedmaps/api/${apiKey}/vector/{z}/{x}/{y}.png`,
-        {
-          attribution: 'Map data © Mappls',
-          maxZoom: 22,
-        }
-      ).addTo(map);
-
       // Add a marker
-      window.L.marker([28.61, 77.23])
+      new window.Mappls.Marker([28.61, 77.23])
         .addTo(map)
         .bindPopup('Mappls API Connected')
         .openPopup();
     };
 
-    // Check if Mappls SDK is already loaded
-    if (window.L) {
+    if (window.Mappls) {
       initializeMap();
       return;
     }
 
-    // Dynamically load SDK if not loaded
     const script = document.createElement('script');
     script.src = `https://apis.mappls.com/advancedmaps/api/${apiKey}/map_sdk.js`;
     script.async = true;
@@ -49,7 +39,7 @@ const MapplsMap: React.FC<MapplsMapProps> = ({ apiKey }) => {
     };
   }, [apiKey]);
 
-  return <div id="map" style={{ height: '500px', width: '100%' }} />;
+  return <div id="map" style={{ width: '100%', height: '500px' }} />;
 };
 
 export default MapplsMap;
